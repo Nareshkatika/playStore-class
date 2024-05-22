@@ -309,8 +309,8 @@ const AppStore = () => {
     return sol1
   }
 
-  const getAppsList = () => {
-    const sol2 = appsList.filter(eachName =>
+  const getAppsList = (AppSolution) => {
+    const sol2 = AppSolution.filter(eachName =>
       eachName.appName.toLowerCase().includes(searchInput.toLowerCase()),
     )
     return sol2
