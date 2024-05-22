@@ -1,7 +1,6 @@
-import {Component} from 'react'
+import {useState} from 'react'
 import AppItem from '../AppItem'
 import TabItem from '../TabItem'
-
 import './index.css'
 
 const tabsList = [
@@ -293,69 +292,60 @@ const appsList = [
   },
 ]
 
-// Write your code here
+const AppStore = () => {
+  const [searchInput, setSearchInput] = useState('')
+  const [activeTabId, setActiveTabId] = useState(tabsList[0].tabId)
 
-class AppStore extends Component {
-  state = {searchInput: '', activeTabId: tabsList[0].tabId}
-
-  NavigateButton = tabId => {
-    this.setState({activeTabId: tabId})
+  const NavigateButton = tabId => {
+    setActiveTabId(tabId)
   }
 
-  onChangeSolution = event => {
-    this.setState({searchInput: event.target.value})
+  const onChangeSolution = event => {
+    setSearchInput(event.target.value)
   }
 
-  getTabsItems = sol => {
-    const {activeTabId} = this.state
-    const solution = sol.filter(eachSol => eachSol.category === activeTabId)
-    return solution
+  const getTabsItems = () => {
+    const sol1 = appsList.filter(eachSol => eachSol.category === activeTabId)
+    return sol1
   }
 
-  getAppsList = () => {
-    const {searchInput} = this.state
-    const Answer = appsList.filter(eachName =>
+  const getAppsList = () => {
+    const sol2 = appsList.filter(eachName =>
       eachName.appName.toLowerCase().includes(searchInput.toLowerCase()),
     )
-    return Answer
+    return sol2
   }
 
-  render() {
-    const {searchInput} = this.state
-    const AppSolution = this.getAppsList()
-    const FinalSolution = this.getTabsItems(AppSolution)
-    return (
-      <div className="Bg-imgEl">
-        <h1 className="headingEl">App Store</h1>
-        <div className="RowArrangeEl1">
-          <input
-            value={searchInput}
-            onChange={this.onChangeSolution}
-            type="search"
-          />
-          <img
-            className="logoEl"
-            alt="search icon"
-            src="https://assets.ccbp.in/frontend/react-js/app-store/app-store-search-img.png "
-          />
-        </div>
-        <ul className="ArrangeEl23">
-          {tabsList.map(eachItem1 => (
-            <TabItem
-              key={eachItem1.tabId}
-              NavigateButton={this.NavigateButton}
-              items2={eachItem1}
-            />
-          ))}
-        </ul>
-        <ul className="unorderedEl">
-          {FinalSolution.map(eachItem2 => (
-            <AppItem items1={eachItem2} key={eachItem2.appId} />
-          ))}
-        </ul>
+  const AppSolution = getAppsList()
+  const FinalSolution = getTabsItems(AppSolution)
+
+  return (
+    <div className="Bg-imgEl">
+      <h1 className="headingEl">App Store</h1>
+      <div className="RowArrangeEl1">
+        <input value={searchInput} onChange={onChangeSolution} type="search" />
+        <img
+          className="logoEl"
+          alt="search icon"
+          src="https://assets.ccbp.in/frontend/react-js/app-store/app-store-search-img.png"
+        />
       </div>
-    )
-  }
+      <ul className="ArrangeEl23">
+        {tabsList.map(eachItem1 => (
+          <TabItem
+            key={eachItem1.tabId}
+            NavigateButton={NavigateButton}
+            items2={eachItem1}
+          />
+        ))}
+      </ul>
+      <ul className="unorderedEl">
+        {FinalSolution.map(eachItem2 => (
+          <AppItem items1={eachItem2} key={eachItem2.appId} />
+        ))}
+      </ul>
+    </div>
+  )
 }
 
 export default AppStore
