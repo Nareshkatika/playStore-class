@@ -1,0 +1,15 @@
+/* Write your CSS here */
+.listTypeEl {
+  list-style-type: none;
+  margin: 10px;
+  background-color: white;
+  height: 200px;
+  width: 200px;
+  text-align: center;
+  padding: 10px;
+}
+
+.imageEl {
+  height: 140px;
+  width: 140px;
+}
